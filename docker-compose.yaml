@@ -1,0 +1,30 @@
+version: "3.4"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ecommerce-service
+    volumes:
+      - .docker/data/app:/app/logs
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+    environment:
+      - NODE_ENV
+
+
+  mongodb:
+    image: mongo:latest
+    container_name: ec-mongodb
+    ports:
+     - 27017:27017
+    environment:
+#      - MONGO_INITDB_DATABASE=test
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    volumes:
+      # named volumes
+      - .docker/data/mongodb:/data/db
+    restart: unless-stopped
