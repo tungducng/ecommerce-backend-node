@@ -7,22 +7,19 @@ const app = express();
 
 //init middlewares
 app.use(morgan('dev'));
-
 app.use(helmet());
-
 app.use(compression());
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}))
 //init db
 require('./configs/config.mongose');
-const {checkOverload} = require('./helpers/check.connect');
-checkOverload();
+// const {checkOverload} = require('./helpers/check.connect');
+// checkOverload();
 
-//init routes
-app.get('/', (req, res) => {
-  return res.status(200).json({
-    message: 'hello',
-  });
-});
-
+// init routes
+app.use('', require('./routes'))
 //init handle error
 
 module.exports = app;
