@@ -20,6 +20,11 @@ require('./configs/config.mongose');
 
 // init routes
 app.use('', require('./routes'))
-//init handle error
+
+// handling errors
+const {logErrorMiddleware, returnError, is404Handler, isOperationalError} = require("./middlewares/errorHandler");
+app.use(is404Handler)
+// app.use(logErrorMiddleware)
+app.use(returnError)
 
 module.exports = app;
